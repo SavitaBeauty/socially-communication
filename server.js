@@ -5,7 +5,7 @@ const app = express();
 
 // Connect DataBase
 connectDB();
-
+    
 app.get('/',(req, res) => res.send('API Running'));
 
 
