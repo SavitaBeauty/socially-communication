@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://savi25:savi25@devconnector.qu8uc.mongodb.net/<dbname>?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://savi25:savi25@devconnector.qu8uc.mongodb.net/<dbname>?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrecttoken"
 }
