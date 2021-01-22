@@ -17,11 +17,8 @@ router.post('/', [
     .not()
     .isEmpty(),
     check('email', 'Please include valid email').isEmail(),
-    check(
-        'password',
-        'Please enter a password with 6 or more characters'
-    ).isLength({ min: 6 })
-],
+    check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 })
+ ],
  async (req, res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -36,9 +33,7 @@ router.post('/', [
             let user = await User.findOne({ email });
 
             if(user) {
-                return res
-                .status(400)
-                .json({ errors: [{ msg:'User already exists' }]  });
+                return res.status(400).json({ errors: [{ msg:'User already exists' }]  });  // doubt
             }
 
             //Get users gravatar
@@ -81,8 +76,8 @@ router.post('/', [
            
 
         } catch(err) {
-            console.console.error(err.message);
-            res.status(500).send('Server  error');
+            console.error(err.message);
+            res.status(500).send('Server error');
         }
 
     }
