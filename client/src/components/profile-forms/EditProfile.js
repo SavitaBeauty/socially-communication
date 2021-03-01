@@ -1,10 +1,15 @@
-import React, { Fragment, useState} from 'react';
+import React, { Fragment, useState, useEffect} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { creactProfile } from  '../../actions/profile';
+import { creactProfile, getCurrentProfile } from  '../../actions/profile';
 
-const CreacteProfile = ({ creactProfile, history }) => {
+const EditProfile = ({
+    profile: { profile, loading },
+     creactProfile, 
+     getCurrentProfile, 
+     history 
+    }) => {
     const [formData, setFormData] = useState({
          company: '',
          website: '',
@@ -23,7 +28,27 @@ const CreacteProfile = ({ creactProfile, history }) => {
 
     const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
-    const {
+    useEffect(() => {
+        getCurrentProfile();
+
+        setFormData({
+            company: loading || !profile.company ? '' : profile.company,
+            website: loading || !profile.website ? '' : profile.website,
+            location: loading || !profile.location ? '' : profile.location,
+            status :loading || !profile.status ? '' : profile.status,
+            skills: loading || !profile.skills ? '' : profile.skills.join(','),
+            githubusername:
+                loading || !profile.githubusername ? '' : profile.githubusername,
+            bio: loading || !profile.bio ? '' : profile.bio,
+            twitter: loading || !profile.social ? '' : profile.social.twitter,
+            facebook: loading || !profile.social ? '' : profile.social.facebook,
+            linkedin: loading || !profile.social ? '' : profile.social.linkedin,
+            youtube: loading || !profile.social ? '' : profile.social.youtube,
+            instagram: loading || !profile.social ? '' : profile.social.instagram
+        });
+    }, [loading]);
+
+    const   {
          company,
          website,
          location,
@@ -43,8 +68,8 @@ const CreacteProfile = ({ creactProfile, history }) => {
 
     const onSubmit = e => {
       e.preventDefault();
-      creactProfile(formData, history);
-    } 
+      creactProfile(formData, history, true);
+    }
 
     return (
         <Fragment>
@@ -157,16 +182,25 @@ const CreacteProfile = ({ creactProfile, history }) => {
 
         
         <input type="submit" className="btn btn-primary my-1" />
-        <Link className="btn btn-light my-1" to="/dashboard">
-          Go Back
-        </Link>
+        <Link className="btn btn-light my-1" to="/dashboard">Go Back</Link>
       </form>
         </Fragment>
     )
 }
 
-CreacteProfile.propTypes = {
-  creactProfile: PropTypes.func.isRequired
+EditProfile.propTypes = {
+  creactProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
-export default connect(null, { creactProfile })(withRouter(CreacteProfile));
+const mapStateToProps = state => ({
+    profile: state.profile
+});
+
+export default connect(
+    mapStateToProps, 
+    { creactProfile, getCurrentProfile }
+    )(withRouter(EditProfile));
+
+
