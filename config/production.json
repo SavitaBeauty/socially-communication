@@ -1,0 +1,6 @@
+{
+    "mongoURI": "mongodb+srv://savi25:savi25@devconnector.qu8uc.mongodb.net/<dbname>?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrecttoken",
+    "githubClientId": "f5cf501c0b6c87773fd0",
+    "githubSecret": "f5b3949c40cfbe40ce72c582c05324fb71562ba4"
+}
